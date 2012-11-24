@@ -82,6 +82,7 @@ public:
         
         img = new ofImage(); 
         img->loadImage(_pathURL);         
+        bgImg = NULL;
     }
 	
     virtual bool hasLabel()
@@ -104,6 +105,14 @@ public:
         delete img; 
     }
 	
+    void drawBackgroundImage()
+    {
+        if (bgImg){
+            ofFill();
+            ofSetColor(color_fill);
+            bgImg->draw(rect->getX(), rect->getY(), rect->getWidth(), rect->getHeight());
+        }
+    }
 
     virtual void drawBack()
     {
@@ -114,6 +123,7 @@ public:
             ofSetColor(color_back); 
             img->draw(rect->getX(), rect->getY(), rect->getWidth(), rect->getHeight()); 
         }
+        drawBackgroundImage();
     }
     
     virtual void drawFill()
@@ -194,10 +204,15 @@ public:
     {
         visible = _visible; 
     }
-
+    
+    void setBackgroundImage(ofImage* bg)
+    {
+        bgImg = bg;
+    }
     
 protected:    //inherited: ofxUIRectangle *rect; ofxUIWidget *parent; 
     ofImage *img; 
+    ofImage *bgImg;
 }; 
 
 #endif

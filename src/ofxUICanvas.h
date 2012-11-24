@@ -127,6 +127,10 @@ public:
         widgetPosition = OFX_UI_WIDGET_POSITION_DOWN;
         widgetAlign = OFX_UI_ALIGN_LEFT;
         widgetFontSize = OFX_UI_FONT_MEDIUM;
+        
+        backgroundImage = NULL;
+        
+        drawEvent = new ofEventArgs();
     }
     
     void init(int w, int h, ofxUICanvas *sharedResources)
@@ -161,6 +165,8 @@ public:
             
         widgetPosition = OFX_UI_WIDGET_POSITION_DOWN;
         widgetAlign = OFX_UI_ALIGN_LEFT;
+
+        backgroundImage = NULL;
     }    
 
 #ifndef OFX_UI_NO_XML
@@ -505,6 +511,8 @@ public:
             enableWindowEventCallbacks(); 
     #endif
             enableKeyEventCallbacks();
+            
+            alpha = 255;
         }
 	}
 	
@@ -522,6 +530,8 @@ public:
             disableWindowEventCallbacks();
     #endif
             disableKeyEventCallbacks();
+            
+            alpha = 0;
         }
     }
 	
@@ -697,6 +707,8 @@ public:
         
         drawPaddedOutline(); 
         
+        drawBackgroundImage();
+        
         drawBack(); 
         
         drawFill(); 
@@ -712,9 +724,21 @@ public:
             if(widgets[i]->isVisible())
             {
                 widgets[i]->draw(); 	
+                
+                if (i == 0) {
+                    ofPushStyle();
+                    //cout << alpha << endl;
+                    alpha-=5;
+                    if (alpha <= 0) alpha = 0;
+                    ofSetColor(0, 0, 0, alpha);
+                    ofRect(0, 0, ofGetScreenWidth(), ofGetScreenHeight());
+                    ofPopStyle();
+                }
             }
 		}
-		
+        
+        ofNotifyEvent(onMyDraw, *drawEvent, this);
+        
 		glDisable(GL_DEPTH_TEST); 
         ofPopStyle();         
     }
@@ -1331,8 +1355,12 @@ public:
 			}			
 		}
 		else 
-		{
-   			widgetRect->y = widgetSpacing;
+		{            
+   			if (position == OFX_UI_WIDGET_POSITION_UP ||
+                position == OFX_UI_WIDGET_POSITION_DOWN)
+            {
+                widgetRect->y = widgetSpacing;
+            }
    			if (position == OFX_UI_WIDGET_POSITION_LEFT ||
                 position == OFX_UI_WIDGET_POSITION_RIGHT)
             {
@@ -1499,6 +1527,13 @@ public:
         return widget;
     }
     
+    ofxUILabel *addLabel(string name, float x, float y, float w, int size = OFX_UI_FONT_MEDIUM)
+    {
+        ofxUILabel* widget = new ofxUILabel(x, y, w, name, size);
+        addWidgetPosition(widget, widgetPosition, widgetAlign);
+        return widget;
+    }
+
     ofxUIFPS *addFPS(int size = OFX_UI_FONT_MEDIUM)
     {
         ofxUIFPS* widget = new ofxUIFPS(size);
@@ -1697,9 +1732,10 @@ public:
     }
     
 	void triggerEvent(ofxUIWidget *child)
-	{        
-        checkForKeyFocus(child); 
-		GUIevent->widget = child; 		
+	{
+        cout << "canvas.trggerEvent " << child->getName() << endl;
+        checkForKeyFocus(child);
+		GUIevent->widget = child;
 		ofNotifyEvent(newGUIEvent,*GUIevent,this);		
 	}
 	    
@@ -2455,9 +2491,27 @@ public:
         return widgetToReturn;                                         
     }
 	
-	ofEvent<ofxUIEventArgs> newGUIEvent;
+    void drawBackgroundImage()
+    {
+        if (isVisible() && backgroundImage)
+            backgroundImage->draw(0, 0);
+    }
+    
+    void setBackgroundImage(ofImage* img)
+    {
+        backgroundImage = img;
+    }
 	
-protected:    
+    ofEvent<ofxUIEventArgs> newGUIEvent;
+	
+    int alpha;
+
+    ofImage* backgroundImage;
+
+    ofEvent<ofEventArgs> onMyDraw;
+	ofEventArgs *drawEvent;
+    
+protected:
     
     void pushbackWidget(ofxUIWidget *widget)
     {
