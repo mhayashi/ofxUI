@@ -752,27 +752,27 @@ public:
 	
     void onTouchDown(ofTouchEventArgs &data)
     {
-		touchDown(data); 
+        touchDown(data);
     }
     
     void onTouchMoved(ofTouchEventArgs &data) 
     {
-		touchMoved(data); 
+        touchMoved(data);
     }
 
     void onTouchUp(ofTouchEventArgs &data) 
     {
-		touchUp(data); 
+        touchUp(data);
     }
 	
     void onTouchDoubleTap(ofTouchEventArgs &data)
     {
-		touchDoubleTap(data); 
+        touchDoubleTap(data);
     }
 	
 	void onTouchCancelled(ofTouchEventArgs &data)
     {
-		touchCancelled(data); 
+        touchCancelled(data);
     }
 	
 	virtual void touchDown(ofTouchEventArgs& touch) 
