@@ -2503,7 +2503,7 @@ public:
     void drawBackgroundImage()
     {
         if (isVisible() && backgroundImage)
-            backgroundImage->draw(0, 0);
+            backgroundImage->draw(rect->x, rect->y);
     }
     
     void setBackgroundImage(ofImage* img)
