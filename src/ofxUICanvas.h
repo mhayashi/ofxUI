@@ -608,6 +608,7 @@ public:
 	//Mouse Callbacks
     void enableMouseEventCallbacks()
     {
+        isEnableMouse = true;
 #if OF_VERSION >= 7 && OF_VERSION_MINOR > 0
         ofAddListener(ofEvents().mouseReleased, this, &ofxUICanvas::onMouseReleased);
         ofAddListener(ofEvents().mousePressed, this, &ofxUICanvas::onMousePressed);
@@ -624,6 +625,7 @@ public:
 	//Mouse Callbacks
     void disableMouseEventCallbacks()
     {
+        isEnableMouse = false;
 #if OF_VERSION >= 7 && OF_VERSION_MINOR > 0
         ofRemoveListener(ofEvents().mouseReleased, this, &ofxUICanvas::onMouseReleased);
         ofRemoveListener(ofEvents().mousePressed, this, &ofxUICanvas::onMousePressed);
@@ -830,23 +832,27 @@ public:
 #else	
     
     void onMouseReleased(ofMouseEventArgs& data) 
-    { 
-        mouseReleased(data.x, data.y, data.button); 
+    {
+        if (isEnableMouse)
+            mouseReleased(data.x, data.y, data.button);
     }
     
     void onMousePressed(ofMouseEventArgs& data) 
     { 
-        mousePressed(data.x, data.y, data.button); 
+        if (isEnableMouse)
+            mousePressed(data.x, data.y, data.button);
     }
     
     void onMouseMoved(ofMouseEventArgs& data) 
-    { 
-        mouseMoved(data.x, data.y); 
+    {
+        if (isEnableMouse)
+            mouseMoved(data.x, data.y);
     }
     
     void onMouseDragged(ofMouseEventArgs& data) 
     { 
-        mouseDragged(data.x, data.y, data.button); 
+        if (isEnableMouse)
+            mouseDragged(data.x, data.y, data.button);
     }
 	
 	virtual void mouseMoved(int x, int y ) 
@@ -2524,6 +2530,7 @@ public:
 
     ofEvent<ofEventArgs> onMyDraw;
 	ofEventArgs *drawEvent;
+    bool isEnableMouse;
 
 protected:
     
