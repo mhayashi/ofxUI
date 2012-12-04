@@ -129,6 +129,8 @@ public:
         widgetFontSize = OFX_UI_FONT_MEDIUM;
         
         backgroundImage = NULL;
+
+        isFadeIn = true;
         
         drawEvent = new ofEventArgs();
     }
@@ -512,7 +514,8 @@ public:
     #endif
             enableKeyEventCallbacks();
             
-            alpha = 255;
+            if (isFadeIn)
+                alpha = 255;
         }
 	}
 	
@@ -2502,15 +2505,26 @@ public:
         backgroundImage = img;
     }
 	
+    void enableFadeIn()
+    {
+        isFadeIn = true;
+    }
+    
+    void disableFadeIn()
+    {
+        isFadeIn = false;
+    }
+    
     ofEvent<ofxUIEventArgs> newGUIEvent;
 	
     int alpha;
+    bool isFadeIn;
 
     ofImage* backgroundImage;
 
     ofEvent<ofEventArgs> onMyDraw;
 	ofEventArgs *drawEvent;
-    
+
 protected:
     
     void pushbackWidget(ofxUIWidget *widget)
