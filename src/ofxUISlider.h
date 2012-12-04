@@ -222,10 +222,10 @@ public:
 			else 
 			{
 				ofRect(rect->getX(), rect->getY()+rect->getHeight(), rect->getWidth(), -rect->getHeight()*value); 
-			}	
+			}
 			if(kind == OFX_UI_WIDGET_SLIDER_V)
 			{
-				label->drawString(rect->getX()+rect->getWidth()+padding, label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*value, ofToString(getScaledValue(),labelPrecision)); 
+				label->drawString(rect->getX()+rect->getWidth()+padding, label->getRect()->getHeight()/2.0+rect->getY()+rect->getHeight()-rect->getHeight()*value, ofToString(getScaledValue(),labelPrecision));
 			}
         }        
     }
@@ -378,7 +378,7 @@ public:
 	{
 		if(kind == OFX_UI_WIDGET_SLIDER_H)
 		{
-			label->setLabel(name + ": " + ofToString(getScaledValue(),labelPrecision)); 		
+			label->setLabel(name + ": " + ofToString(getScaledValue(),labelPrecision));
 		}		
 	}
 	
@@ -516,12 +516,12 @@ public:
         return true; 
     }
     
-protected:    //inherited: ofxUIRectangle *rect; ofxUIWidget *parent; 
+protected:    //inherited: ofxUIRectangle *rect; ofxUIWidget *parent;
 	float value, increment; 
     float *valueRef; 
     bool useReference;     
-	float max, min;  
+	float max, min;
     int labelPrecision;
-}; 
+};
 
 #endif
