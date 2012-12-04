@@ -141,8 +141,8 @@ public:
         if(draw_fill_highlight)
         {
             ofFill(); 
-            ofSetColor(color_fill_highlight); 
-            img->draw(rect->getX(), rect->getY(), rect->getWidth(), rect->getHeight());             
+            ofSetColor(color_fill_highlight);
+            img->draw(rect->getX(), rect->getY(), rect->getWidth(), rect->getHeight());
         }
     }   
     
@@ -210,7 +210,12 @@ public:
         bgImg = bg;
     }
     
-protected:    //inherited: ofxUIRectangle *rect; ofxUIWidget *parent; 
+    ofImage* getImage()
+    {
+        return img;
+    }
+    
+protected:    //inherited: ofxUIRectangle *rect; ofxUIWidget *parent;
     ofImage *img; 
     ofImage *bgImg;
 }; 
