@@ -509,7 +509,8 @@ public:
     #ifdef TARGET_OPENGLES
             enableTouchEventCallbacks();
     #else
-            enableMouseEventCallbacks();
+            if (!isEnabledTouch)
+                enableMouseEventCallbacks();
             enableWindowEventCallbacks(); 
     #endif
             enableKeyEventCallbacks();
@@ -2531,9 +2532,9 @@ public:
     ofEvent<ofEventArgs> onMyDraw;
 	ofEventArgs *drawEvent;
     bool isEnableMouse;
+    static bool isEnabledTouch;    
 
 protected:
-    
     void pushbackWidget(ofxUIWidget *widget)
     {
         widget->setID(uniqueIDs); 
@@ -2640,7 +2641,7 @@ protected:
             }
         }        
     }
-    
 };
 
+bool ofxUICanvas::isEnabledTouch;    
 #endif
